@@ -42,6 +42,14 @@ const newKeyWord = () => {
 
 //run when letter NOT contined in keyWord is guessed
 const decGuessRemaining = () => {
+  wrongGuesses.forEach(function(letter, index) {
+      if(letter === userGuess) {
+        keyWordLetters[index] = null;
+        keyLettersRemaining--;
+        document.getElementById(`wrong${index}`).innerHTML = letter.toUpperCase();
+      };
+    }
+  );
   guessRemaining--;
   console.log(guessRemaining);
   if (guessRemaining <= 0) {
@@ -68,6 +76,9 @@ const correctGuess = () => {
 const clearLetterIds = () => {
   for (let i = keySlots-1; i >= 0; i--) {
     document.getElementById(`key${i}`).innerHTML = '';
+  };
+  for (let i = 7; i >= 0; i--) {
+    document.getElementById(`wrong${i}`).innerHTML = '';
   };
 };
 

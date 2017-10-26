@@ -19,5 +19,23 @@ html {
 }
 
 .key-word {
+margin-left: auto;
+}
 
+.wrong-letter-container {
+  width: 6rem;
+  height: 6rem;
+  border: .2rem solid magenta;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+  font-size: 4rem;
+  font-weight: 700;
+  float: left;
+}
+
+.wrong-guesses {
+  margin: auto;
+  clear: both;
 }
