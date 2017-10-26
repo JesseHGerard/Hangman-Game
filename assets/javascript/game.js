@@ -2,14 +2,37 @@ const dictionary = ['abruptly', 'absurd', 'abyss', 'affix', 'askew', 'avenue', '
 
 const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
+//hidden word for user to guess
 let keyWord;
 
+//quantity of letters remaining that have not been guessed by user
 let keyLettersRemaining;
 
+//an array of letters in keyWord that have not been guessed by user
 let keyWordLetters;
 
+//key pressed by user
 let userGuess;
 
+//quantity of guesses remaining before lose
+let guessRemaining;
+
+//an array of letters incorrectly guessed by user
+let wrongGuesses = [];
+
+//count of games lost by user
+let loseCount = 0;
+
+//count of games won by user
+let winCount = 0;
+
+//sets quantity of letter guesses before lose
+const guessQty = 8;
+
+//sets quantity of key ids
+const keySlots = 10;
+
+//picks new keyWord at random
 const newKeyWord = () => {
   let tempWord = dictionary[Math.floor(Math.random() * dictionary.length)];
   keyLettersRemaining = tempWord.length;
@@ -17,14 +40,7 @@ const newKeyWord = () => {
   return tempWord;
 };
 
-let guessRemaining = 8;
-
-let wrongGuesses = [];
-
-let loseCount;
-
-let winCount;
-
+//run when letter NOT contined in keyWord is guessed
 const decGuessRemaining = () => {
   guessRemaining--;
   console.log(guessRemaining);
@@ -33,10 +49,13 @@ const decGuessRemaining = () => {
   };
 };
 
+//run when letter contined in keyWord is guessed
 const correctGuess = () => {
-  keyWordLetters.forEach(function(letter) {
+  keyWordLetters.forEach(function(letter, index) {
       if(letter === userGuess) {
+        keyWordLetters[index] = null;
         keyLettersRemaining--;
+        document.getElementById(`key${index}`).innerHTML = letter.toUpperCase();
       };
     }
   );
@@ -45,30 +64,38 @@ const correctGuess = () => {
   };
 };
 
+//clears innerHTML of keys
+const clearLetterIds = () => {
+  for (let i = keySlots-1; i >= 0; i--) {
+    document.getElementById(`key${i}`).innerHTML = '';
+  };
+};
+
 const gameReset = () => {
+  clearLetterIds();
   keyWord = newKeyWord();
   console.log(`KeyWord: ${keyWord}`);
-  guessRemaining = 8;
+  guessRemaining = guessQty;
   wrongGuesses = [];
 };
 
 const gameLose = () => {
-  gameReset();
   loseCount++;
   console.log(`loseCount: ${loseCount}`);
+  gameReset();
 };
 
 const gameWin = () => {
-  gameReset();
   winCount++;
   console.log(`winCount: ${winCount}`);
+  gameReset();
 };
 
 const checkInKeyWord = () => {
   if (keyWord.includes(userGuess)) {
     //userGuess DOES contain a valid letter
-    correctGuess();
     console.log(`${userGuess} is part of keyWord`);
+    correctGuess();
   } else {
     if (keyWord.includes(userGuess) === false) {
       //userGuess does not contain a valid letter
@@ -85,14 +112,15 @@ const checkInKeyWord = () => {
 // Game Start!
 
 console.log("You're playing Hangman!");
+guessRemaining = guessQty;
 keyWord = newKeyWord();
 console.log(`keyWord: ${keyWord}`);
 
 //listen for key input
-document.onkeyup = function(event) {
+document.onkeypress = function(event) {
 
   checkInKeyWord;
-  userGuess = event.key;
+  userGuess = event.key.toLowerCase();
   console.log(`userGuess: ${userGuess}`);
   checkInKeyWord();
   console.log('-------------');
