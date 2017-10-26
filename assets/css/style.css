@@ -19,7 +19,7 @@ html {
 }
 
 .key-word {
-margin-left: auto;
+
 }
 
 .wrong-letter-container {
@@ -33,9 +33,14 @@ margin-left: auto;
   font-size: 4rem;
   font-weight: 700;
   float: left;
+  overflow: hidden;
 }
 
 .wrong-guesses {
   margin: auto;
   clear: both;
+}
+
+.display-none {
+  display: none;
 }

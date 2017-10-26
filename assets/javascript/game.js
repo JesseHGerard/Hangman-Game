@@ -1,6 +1,18 @@
 const dictionary = ['abruptly', 'absurd', 'abyss', 'affix', 'askew', 'avenue', 'awkward', 'axiom', 'azure', 'bagpipes', 'bandwagon', 'banjo', 'bayou', 'beekeeper', 'bikini', 'blitz', 'blizzard', 'boggle', 'bookworm', 'boxcar', 'boxful', 'buckaroo', 'buffalo', 'buffoon', 'buxom', 'buzzard', 'buzzing', 'buzzwords', 'caliph', 'cobweb', 'cockiness', 'croquet', 'crypt', 'curacao', 'cycle', 'daiquiri', 'dirndl', 'disavow', 'dizzying', 'duplex', 'dwarves', 'embezzle', 'equip', 'espionage', 'euouae', 'exodus', 'faking', 'fishhook', 'fixable', 'fjord', 'flapjack', 'flopping', 'fluffiness', 'flyby', 'foxglove', 'frazzled', 'frizzled', 'fuchsia', 'funny', 'gabby', 'galaxy', 'galvanize', 'gazebo', 'giaour', 'gizmo', 'glowworm', 'glyph', 'gnarly', 'gnostic', 'gossip', 'grogginess', 'haiku', 'haphazard', 'hyphen', 'iatrogenic', 'icebox', 'injury', 'ivory', 'ivy', 'jackpot', 'jaundice', 'jawbreaker', 'jaywalk', 'jazziest', 'jazzy', 'jelly', 'jigsaw', 'jinx', 'jiujitsu', 'jockey', 'jogging', 'joking', 'jovial', 'joyful', 'juicy', 'jukebox', 'jumbo', 'kayak', 'kazoo', 'keyhole', 'khaki', 'kilobyte', 'kiosk', 'kitsch', 'kiwifruit', 'klutz', 'knapsack', 'larynx', 'lengths', 'lucky', 'luxury', 'lymph', 'marquis', 'matrix', 'megahertz', 'microwave', 'mnemonic', 'mystify', 'naphtha', 'nightclub', 'nowadays', 'numbskull', 'nymph', 'onyx', 'oxidize', 'oxygen', 'pajama', 'peekaboo', 'phlegm', 'pixel', 'pneumonia', 'polka', 'pshaw', 'psyche', 'puppy', 'puzzling', 'quartz', 'queue', 'quips', 'quixotic', 'quiz', 'quizzes', 'quorum', 'razzmatazz', 'rhubarb', 'rhythm', 'rickshaw', 'schnapps', 'scratch', 'shiv', 'snazzy', 'sphinx', 'spritz', 'squawk', 'staff', 'strength', 'strengths', 'stretch', '', 'stronghold', 'stymied', 'subway', 'swivel', 'syndrome', 'thriftless', 'thumbscrew', 'topaz', 'transcript', 'transgress', 'transplant', 'triphthong', 'twelfth', 'twelfths', 'unknown', 'unworthy', 'unzip', 'uptown', 'vaporize', 'vixen', 'vodka', 'voodoo', 'vortex', 'voyeurism', 'walkway', 'waltz', 'wave', 'wavy', 'waxy', 'wellspring', 'wheezy', 'whiskey', 'whizzing', 'whomever', 'wimpy', 'witchcraft', 'wizard', 'woozy', 'wristwatch', 'wyvern', 'xylophone', 'yachtsman', 'yippee', 'yoked', 'youthful', 'yummy', 'zephyr', 'zigzag', 'zigzagging', 'zilch', 'zipper', 'zodiac', 'zombie', 'schwiffty'];
 
-const alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+//array contains id names of divs to display key word letters
+const keyIdNames = ['key0', 'key1', 'key2', 'key3', 'key4', 'key5', 'key6', 'key7', 'key8', 'key9'];
+
+//array to contain refrences to key elements
+let keyIdElements = [];
+
+const makeIdElements = () => {
+    keyIdNames.forEach(function(index){
+      keyIdElements[index] = document.getElementById(keyIdNames[index]);
+    });
+};
+
+
 
 //hidden word for user to guess
 let keyWord;
@@ -44,8 +56,6 @@ const newKeyWord = () => {
 const decGuessRemaining = () => {
   wrongGuesses.forEach(function(letter, index) {
       if(letter === userGuess) {
-        keyWordLetters[index] = null;
-        keyLettersRemaining--;
         document.getElementById(`wrong${index}`).innerHTML = letter.toUpperCase();
       };
     }
@@ -74,20 +84,44 @@ const correctGuess = () => {
 
 //clears innerHTML of keys
 const clearLetterIds = () => {
-  for (let i = keySlots-1; i >= 0; i--) {
-    document.getElementById(`key${i}`).innerHTML = '';
-  };
-  for (let i = 7; i >= 0; i--) {
-    document.getElementById(`wrong${i}`).innerHTML = '';
+  document.addEventListener("DOMContentLoaded", function() {
+    for (let i = keySlots-1; i >= 0; i--) {
+      document.getElementById(`key${i}`).innerHTML = '';
+    };
+  });
+  document.addEventListener("DOMContentLoaded", function() {
+    for (let i = 7; i >= 0; i--) {
+        document.getElementById(`wrong${i}`).innerHTML = '';
+    };
+  });
+};
+
+// make display: none for  key letter divs
+const clearKeyLetters = () => { keyIds.forEach(
+    function(value) {
+      document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById(value).setAttribute("class", "display-none");
+      });
+    }
+  );
+};
+
+const showKeyLetters = () => {
+  for (let i = 0; i < keyWord.length; i++) {
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById(keyIds[i]).removeAttribute("class", "display-none");
+      document.getElementById(keyIds[i]).setAttribute("class", "key-container");
+    });
   };
 };
 
 const gameReset = () => {
   clearLetterIds();
+  // clearKeyLetters();
   keyWord = newKeyWord();
-  console.log(`KeyWord: ${keyWord}`);
   guessRemaining = guessQty;
   wrongGuesses = [];
+  // showKeyLetters();
 };
 
 const gameLose = () => {
@@ -102,6 +136,7 @@ const gameWin = () => {
   gameReset();
 };
 
+//checks if userGuess is part of keyWord
 const checkInKeyWord = () => {
   if (keyWord.includes(userGuess)) {
     //userGuess DOES contain a valid letter
@@ -118,14 +153,27 @@ const checkInKeyWord = () => {
   };
 };
 
+const debugMode = () => {
+  console.log("***************");
+  console.log("keyWord: " + keyWord);
+  console.log("keyLettersRemaining: " + keyLettersRemaining);
+  console.log("keyWordLetters: " + keyWordLetters);
+  console.log("userGuess: " + userGuess);
+  console.log("guessRemaining: " + guessRemaining);
+  console.log("wrongGuesses: " + wrongGuesses);
+  console.log("loseCount: " + loseCount);
+  console.log("winCount: " + winCount);
+  console.log('***************');
+}
+
+
 
 //---------------------------------------
 // Game Start!
 
 console.log("You're playing Hangman!");
-guessRemaining = guessQty;
-keyWord = newKeyWord();
-console.log(`keyWord: ${keyWord}`);
+gameReset();
+
 
 //listen for key input
 document.onkeypress = function(event) {
@@ -136,5 +184,7 @@ document.onkeypress = function(event) {
   checkInKeyWord();
   console.log('-------------');
 
+  ////comment in below for debugMode in console
+  debugMode();
 
 };
