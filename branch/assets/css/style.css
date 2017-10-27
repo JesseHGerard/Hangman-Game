@@ -1,42 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,700');
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:300,700');
 
 html {
   font-family: 'Roboto Slab', serif;
   font-size: 10px;
-}
-
-.center {
-  width: 85rem;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.header {
-  float: left;
-  width: 100%;
-  margin-top: 20%;
-
-}
-
-#wins {
-  font-weight: 300;
-}
-
-.hangman {
-  margin: 1rem;
-  font-size: 6rem;
-  color: #d6d6d6;
-  font-weight: 100;
-  display: inline;
-}
-
-.score {
-  font-size: 3rem;
-  color: #e8c010;
-  font-weight: 100;
-  margin: 1rem;
-  display: inline;
-  vertical-align: bottom;
 }
 
 .key-container {
@@ -52,6 +18,9 @@ html {
   float: left;
 }
 
+.key-word {
+
+}
 
 .wrong-letter-container {
   width: 6rem;

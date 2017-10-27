@@ -1,5 +1,7 @@
 const dictionary = ['abruptly', 'absurd', 'abyss', 'affix', 'askew', 'avenue', 'awkward', 'axiom', 'azure', 'bagpipes', 'bandwagon', 'banjo', 'bayou', 'beekeeper', 'bikini', 'blitz', 'blizzard', 'boggle', 'bookworm', 'boxcar', 'boxful', 'buckaroo', 'buffalo', 'buffoon', 'buxom', 'buzzard', 'buzzing', 'buzzwords', 'caliph', 'cobweb', 'cockiness', 'croquet', 'crypt', 'curacao', 'cycle', 'daiquiri', 'dirndl', 'disavow', 'dizzying', 'duplex', 'dwarves', 'embezzle', 'equip', 'espionage', 'euouae', 'exodus', 'faking', 'fishhook', 'fixable', 'fjord', 'flapjack', 'flopping', 'fluffiness', 'flyby', 'foxglove', 'frazzled', 'frizzled', 'fuchsia', 'funny', 'gabby', 'galaxy', 'galvanize', 'gazebo', 'giaour', 'gizmo', 'glowworm', 'glyph', 'gnarly', 'gnostic', 'gossip', 'grogginess', 'haiku', 'haphazard', 'hyphen', 'iatrogenic', 'icebox', 'injury', 'ivory', 'ivy', 'jackpot', 'jaundice', 'jawbreaker', 'jaywalk', 'jazziest', 'jazzy', 'jelly', 'jigsaw', 'jinx', 'jiujitsu', 'jockey', 'jogging', 'joking', 'jovial', 'joyful', 'juicy', 'jukebox', 'jumbo', 'kayak', 'kazoo', 'keyhole', 'khaki', 'kilobyte', 'kiosk', 'kitsch', 'kiwifruit', 'klutz', 'knapsack', 'larynx', 'lengths', 'lucky', 'luxury', 'lymph', 'marquis', 'matrix', 'megahertz', 'microwave', 'mnemonic', 'mystify', 'naphtha', 'nightclub', 'nowadays', 'numbskull', 'nymph', 'onyx', 'oxidize', 'oxygen', 'pajama', 'peekaboo', 'phlegm', 'pixel', 'pneumonia', 'polka', 'pshaw', 'psyche', 'puppy', 'puzzling', 'quartz', 'queue', 'quips', 'quixotic', 'quiz', 'quizzes', 'quorum', 'razzmatazz', 'rhubarb', 'rhythm', 'rickshaw', 'schnapps', 'scratch', 'shiv', 'snazzy', 'sphinx', 'spritz', 'squawk', 'staff', 'strength', 'strengths', 'stretch', '', 'stronghold', 'stymied', 'subway', 'swivel', 'syndrome', 'thriftless', 'thumbscrew', 'topaz', 'transcript', 'transgress', 'transplant', 'triphthong', 'twelfth', 'twelfths', 'unknown', 'unworthy', 'unzip', 'uptown', 'vaporize', 'vixen', 'vodka', 'voodoo', 'vortex', 'voyeurism', 'walkway', 'waltz', 'wave', 'wavy', 'waxy', 'wellspring', 'wheezy', 'whiskey', 'whizzing', 'whomever', 'wimpy', 'witchcraft', 'wizard', 'woozy', 'wristwatch', 'wyvern', 'xylophone', 'yachtsman', 'yippee', 'yoked', 'youthful', 'yummy', 'zephyr', 'zigzag', 'zigzagging', 'zilch', 'zipper', 'zodiac', 'zombie', 'schwiffty'];
 
+//array contains id names of divs to display key word letters
+const keyIdNames = ['key0', 'key1', 'key2', 'key3', 'key4', 'key5', 'key6', 'key7', 'key8', 'key9'];
 
 //hidden word for user to guess
 let keyWord;
@@ -14,7 +16,7 @@ let keyWordLetters;
 let userGuess;
 
 //quantity of guesses remaining before lose
-let guessRemaining = 8;
+let guessRemaining;
 
 //an array of letters incorrectly guessed by user
 let wrongGuesses = [];
@@ -37,17 +39,21 @@ const newKeyWord = () => {
   keyLettersRemaining = tempWord.length;
   keyWordLetters = tempWord.split('');
   return tempWord;
+  console.log('newKeyWord() has completed');
 };
 
 //run when letter NOT contined in keyWord is guessed
 const decGuessRemaining = () => {
-  guessRemaining--;
   wrongGuesses.forEach(function(letter, index) {
-    document.getElementById(`wrong${index}`).innerHTML = letter.toUpperCase();
-  });
+        document.getElementById(`wrong${index}`).innerHTML = letter.toUpperCase();
+    }
+  );
+  guessRemaining--;
+  console.log(guessRemaining);
   if (guessRemaining <= 0) {
     gameLose();
   };
+  console.log('decGuessRemaining() has completed')
 };
 
 //run when letter contined in keyWord is guessed
@@ -63,53 +69,43 @@ const correctGuess = () => {
   if (keyLettersRemaining <= 0) {
     gameWin();
   };
+  console.log('correctGuess() has completed');
 };
 
-//clears innerHTML of keys
-const clearKeyIds = () => {
-  for (let i = keySlots-1; i >= 0; i--) {
-    document.getElementById(`key${i}`).innerHTML = '';
-  };
+const clearLetterIds = () => {
+  document.addEventListener("DOMContentLoaded", function() {
+    for (i = 0; i < 10; i++) {
+      document.getElementById(keyIdNames[i]).innerHTML = '';
+    };
+  });
+
 };
 
-const clearWrongIds = () => {
-  for (let j = 7; j>= 0; j--) {
-    document.getElementById(`wrong${j}`).innerHTML = '';
-  };
-};
 
-const hideEmptyKey = () => {
-  for (let i = keySlots-1; i >= 0; i--) {
-    document.getElementById(`key${i}`).setAttribute("class", "display-none");
-  };
-  for (let i = keyWord.length-1; i >= 0; i--) {
-    document.getElementById(`key${i}`).setAttribute("class", "key-container");
-  };
-};
 
 const gameReset = () => {
-  clearKeyIds();
-  clearWrongIds();
+  clearLetterIds();
   keyWord = newKeyWord();
-  console.log(`KeyWord: ${keyWord}`);
   guessRemaining = guessQty;
   wrongGuesses = [];
-  hideEmptyKey();
+  console.log('gameReset() has complted');
 };
 
 const gameLose = () => {
   loseCount++;
   console.log(`loseCount: ${loseCount}`);
   gameReset();
+  console.log('gameLose() has completed');
 };
 
 const gameWin = () => {
   winCount++;
   console.log(`winCount: ${winCount}`);
   gameReset();
+  console.log('gameWin() has completed')
 };
 
-
+//checks if userGuess is part of keyWord
 const checkInKeyWord = () => {
   if (keyWord.includes(userGuess)) {
     //userGuess DOES contain a valid letter
@@ -126,18 +122,27 @@ const checkInKeyWord = () => {
   };
 };
 
+const debugMode = () => {
+  console.log("***************");
+  console.log("keyWord: " + keyWord);
+  console.log("keyLettersRemaining: " + keyLettersRemaining);
+  console.log("keyWordLetters: " + keyWordLetters);
+  console.log("userGuess: " + userGuess);
+  console.log("guessRemaining: " + guessRemaining);
+  console.log("wrongGuesses: " + wrongGuesses);
+  console.log("loseCount: " + loseCount);
+  console.log("winCount: " + winCount);
+  console.log('***************');
+}
+
+
 
 //---------------------------------------
 // Game Start!
 
 console.log("You're playing Hangman!");
-guessRemaining = guessQty;
-keyWord = newKeyWord();
-document.addEventListener("DOMContentLoaded", function() {
-  hideEmptyKey();
-});
+gameReset();
 
-console.log(`keyWord: ${keyWord}`);
 
 //listen for key input
 document.onkeypress = function(event) {
@@ -148,5 +153,7 @@ document.onkeypress = function(event) {
   checkInKeyWord();
   console.log('-------------');
 
+  ////comment in below for debugMode in console
+  debugMode();
 
 };
