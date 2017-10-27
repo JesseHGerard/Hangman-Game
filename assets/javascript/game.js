@@ -88,23 +88,28 @@ const hideEmptyKey = () => {
 };
 
 const gameReset = () => {
-  clearKeyIds();
-  clearWrongIds();
-  keyWord = newKeyWord();
-  console.log(`KeyWord: ${keyWord}`);
-  guessRemaining = guessQty;
-  wrongGuesses = [];
-  hideEmptyKey();
+  setTimeout(function(){
+    clearKeyIds();
+    clearWrongIds();
+    keyWord = newKeyWord();
+    console.log(`KeyWord: ${keyWord}`);
+    guessRemaining = guessQty;
+    wrongGuesses = [];
+    hideEmptyKey();
+  }, 1000);
+
 };
 
 const gameLose = () => {
   loseCount++;
+  document.getElementById('losses').innerHTML = `Losses ${loseCount}`;
   console.log(`loseCount: ${loseCount}`);
   gameReset();
 };
 
 const gameWin = () => {
   winCount++;
+  document.getElementById('wins').innerHTML = `Wins ${winCount}`;
   console.log(`winCount: ${winCount}`);
   gameReset();
 };
